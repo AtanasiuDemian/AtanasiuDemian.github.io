@@ -5,6 +5,7 @@ This repository is a collection of notebooks I wrote with the purpose of analyzi
 
 # Regression
 
-## Shrinkage and PCR: College dataset [nbviewer](https://nbviewer.jupyter.org/github/AtanasiuDemian/Introduction-to-Statistical-Learning---Python/blob/master/College.ipynb)
-I analyze the College dataset from ISLR, which contains information about 777 universities and colleges in the US. The objective is to predict the number of applications received by a college using 4 regression models: Ordinary Least Squares, Ridge, Lasso and Principal Components Analysis (PCR). 
+## Shrinkage and PCR: College dataset
+[Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/Introduction-to-Statistical-Learning---Python/blob/master/College.ipynb)
 
+I analyze the College dataset from ISLR, which contains information about 777 universities and colleges in the US. The objective is to predict the number of applications received by a college using 4 regression models: Ordinary Least Squares, Ridge, Lasso and Principal Components Analysis (PCR).
