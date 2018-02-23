@@ -5,6 +5,11 @@ This repository is a collection of notebooks I wrote with the purpose of analyzi
 
 ## Regression
 
+### Shrinkage Methods: Hitters dataset
+[Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/Introduction-to-Statistical-Learning---Python/blob/master/Hitters.ipynb)
+
+I apply Ridge and Lasso to the Hitters dataset from the ISLR package, containing data about Major League Baseball players. The results of the two models on the test set were compared with the performance of a multiple linear regression model using ordinary least squares. More information about the dataset can be found [here](https://rdrr.io/cran/ISLR/man/Hitters.html).
+
 ### Shrinkage and PCR: College dataset
 [Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/Introduction-to-Statistical-Learning---Python/blob/master/College.ipynb)
 
