@@ -14,3 +14,10 @@ I apply Ridge and Lasso to the Hitters dataset from the ISLR package, containing
 [Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/Introduction-to-Statistical-Learning---Python/blob/master/College.ipynb)
 
 I analyze the College dataset from ISLR, which contains information about 777 universities and colleges in the US. The objective is to predict the number of applications received by a college using 4 regression models: Ordinary Least Squares, Ridge, Lasso and Principal Components Regression (PCR).
+
+## Time Series 
+
+### Predicting the Number of Airline Passengers
+[Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/AtanasiuDemian.github.io/blob/master/Notebooks/AirPassengers.ipynb)
+
+I analyze a time series dataset representing the monthly number (in thousands) of international airline passengers from January 1949 to December 1960. I look for an appropriate model by analyzing the ACF and PACF, and evaluating model performance using the AIC.
