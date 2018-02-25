@@ -20,4 +20,4 @@ I analyze the College dataset from ISLR, which contains information about 777 un
 ### Predicting the Number of Airline Passengers
 [Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/AtanasiuDemian.github.io/blob/master/Notebooks/AirPassengers.ipynb)
 
-I analyze a time series dataset representing the monthly number (in thousands) of international airline passengers from January 1949 to December 1960. I look for an appropriate model by analyzing the ACF and PACF, and evaluating model performance using the AIC.
+I analyze a time series dataset representing the monthly number (in thousands) of international airline passengers from January 1949 to December 1960. The dataset was downloaded from [Kaggle](https://www.kaggle.com/rakannimer/air-passengers). I look for an appropriate model by analyzing the ACF and PACF, and evaluating model performance using the AIC.
