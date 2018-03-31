@@ -21,8 +21,13 @@ I analyze the College dataset from ISLR, which contains information about 777 un
 [Notebook](https://www.kaggle.com/tanidemian/data-cleaning)
 
 This was a 5 day programme tackling issues and techniques used for data cleaning. The notebook is organized as follows:
+
 Day 1 - Handling missing values
+
 Day 2 - Data scaling and normalization
+
 Day 3 - Cleaning and parsing dates
+
 Day 4 - Character encodings
+
 Day 5 - Fixing inconsistent data entry & spelling errors
