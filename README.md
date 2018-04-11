@@ -11,9 +11,16 @@ This repository is a collection of notebooks I wrote with the purpose of analyzi
 I apply Ridge and Lasso to the Hitters dataset from the ISLR package, containing data about Major League Baseball players. The results of the two models on the test set were compared with the performance of a multiple linear regression model using ordinary least squares. More information about the dataset can be found [here](https://rdrr.io/cran/ISLR/man/Hitters.html).
 
 ### Shrinkage and PCR: College dataset
-[Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/Introduction-to-Statistical-Learning---Python/blob/master/College.ipynb)
+[Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/Introduction-to-Statistical-Learning---Python/blob/master/College.ipynb)  
 
 I analyze the College dataset from ISLR, which contains information about 777 universities and colleges in the US. The objective is to predict the number of applications received by a college using 4 regression models: Ordinary Least Squares, Ridge, Lasso and Principal Components Regression (PCR).
+
+## Classification
+
+### Leukemia Classification by Gene Expressions
+[Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/AtanasiuDemian.github.io/blob/master/Notebooks/Leukemia.ipynb)
+
+The objective is to build a classification model from a high-dimensional dataset comprising gene expressions to predict two types of leukemia: acute myeloid leukemia (AML) and acute lymphoblastic leukemia (ALL), through logistic regression and dimensional reduction by PCA.
 
 ## Miscellaneous
 
