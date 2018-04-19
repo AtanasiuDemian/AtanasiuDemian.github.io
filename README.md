@@ -3,6 +3,13 @@
 
 This repository is a collection of notebooks I wrote with the purpose of analyzing data and implementing machine learning algorithms. Some of the datasets used in the notebooks are from the book "Introduction to Statistical Learning" by Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani, Springer, 2013 (abbreviated as ISLR henceforth). More information about the book can be found [here](http://www-bcf.usc.edu/~gareth/ISL/).
 
+## Inference
+
+### Deaths by horse kicks: Bortkiewicz's data
+[Notebook](https://nbviewer.jupyter.org/github/AtanasiuDemian/AtanasiuDemian.github.io/blob/master/Notebooks/RNit.nb.html)
+
+This R Notebook is concerned with Ladislaus Bortkiewicz's investigation of the number of annual deaths by horse kicks in 14 different cavalry corps of the Prussian Army. This dataset is quite popular because it fits a Poisson distribution reasonably well.
+
 ## Regression
 
 ### Shrinkage Methods: Hitters dataset
