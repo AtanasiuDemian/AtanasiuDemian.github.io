@@ -1,6 +1,6 @@
 ---
 title: "Deaths by horse kicks: Bortkiewicz's data"
-output: html_notebook
+output: rmarkdown::github_document
 header-includes:
    - \usepackage{bbm}
 ---
