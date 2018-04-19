@@ -1,0 +1,130 @@
+---
+title: "Deaths by horse kicks: Bortkiewicz's data"
+output: html_notebook
+header-includes:
+   - \usepackage{bbm}
+---
+
+This R Notebook is concerned with Ladislaus Bortkiewicz's investigation of the number of annual deaths by horse kicks in 14 different cavalry corps of the Prussian Army. The dataset can be found [here](http://www.randomservices.org/random/data/HorseKicks.html). Below is the data in tabular form, with $i$ representing the number of deaths in a year and $n_{i}$ the number of occurences:
+
+<style type="text/css">
+.table {
+
+    width: 30%;
+
+}
+</style>
+
+ $i$     $n_{i}$                                   
+-----   ---------  
+ 0         144
+ 1         91
+ 2         32
+ 3         11
+ 4         2
+$\ge 5$    0
+
+We have 280 observations in total. I will model the annual number of deaths $X_{1}, ..., X_{280}$ as independent Poisson($\lambda$) random variables, with $\lambda$ to be estimated. We can represent the (sorted) data in R as follows:
+
+```{r}
+x <- c(144,91,32,11,2,0)
+xobs <- rep(0:5, x)
+```
+
+I will now look at the performance of two estimators: the Maximum Likelihood Estimator, $\hat{\lambda}(\mathbf{x}) = \overline{\mathbf{x}}$, and $T$, which is given by:
+
+$$ T(\mathbf{x}) = - \text{log}\ p_{0}(\mathbf{x}), \ \ \text{where}
+\ \ p_{0}(\mathbf{x}) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{1}_{\{x_{i}=0\}}$$
+
+The indicator function $1_{\{x_{i}=0\}}$ is 1 if $x_{i}=0$ and 0 otherwise. The reasoning for $T$ comes from the fact that $\mathbb{P}(X=0 ; \lambda) = e^{-\lambda}$ for $X \sim \text{Poisson}(\lambda)$.
+
+I will first plot the behaviour of the two estimators in a sampling experiment, using $\lambda = 1$ and $\lambda = 2$. In order to analyze the sampling distribution I will simulate 10000 drawings, each of sample size 280 (like Bortkiewicz's data), for each $\lambda$.
+
+```{r}
+N <- 10000
+# T(X) estimates
+samples1 <- sapply(1:N, function(i) -log(mean(rpois(280, lambda=1)==0)))
+samples2 <- sapply(1:N, function(i) -log(mean(rpois(280, lambda=2)==0)))
+# Maximum likelihood estimates
+samples1.mle <- sapply(1:N, function(i) mean(rpois(280, lambda=1)))
+samples2.mle <- sapply(1:N, function(i) mean(rpois(280, lambda=2)))
+plot(density(samples1), main=expression("Estimators of"~lambda), col='blue', 
+     xlab=expression(lambda), lty=1, lwd=2, xlim=c(0.6,2.4), ylim=c(0,7))
+lines(density(samples2), lty=2, col='blue', lwd=2)
+lines(density(samples1.mle), lty=1, col='red', lwd=2)
+lines(density(samples2.mle), lty=2, col='red', lwd=2)
+abline(v=1, col='darkgreen')
+abline(v=2, col='darkgreen')
+text(x=1, y=0, label="True value", pos=4, col='darkgreen')
+text(x=2, y=0, label="True value", pos=4, col='darkgreen')
+legend('top', legend=c(expression("T(x) for"~lambda==1), 
+                       expression('MLE for'~lambda==1), 
+                       expression("T(x) for"~lambda==2), 
+                       expression('MLE for'~lambda==2)),
+       lty=c(1,1,2,2), lwd=rep(2,4), col=c('blue', 'red', 'blue', 'red'), pch=NA, bty='n')
+```
+The graph shows sampling distributions of $T(\mathbf{X})$ estimates have higher variances than the ML estimates. I will show that the MLE of $\lambda$ is an efficient estimator. For $X \sim \text{Poisson}(\lambda)$ the likelihood and log-likelihood functions are:
+$$L(\lambda; x) \propto e^{-\lambda} \frac{\lambda^{x}}{x!}$$
+$$\ell(\lambda; x) = -\lambda + x\log(\lambda) + c$$
+where $c$ is a constant. The score is given by:
+$$\ell^{\ '}(\lambda; x) = -1 + \frac{x}{\lambda}$$
+Hence Fisher's information is:
+$$I(\lambda) = \text{Var}( \ell^{\ '}(\lambda; x);\ \lambda) = \frac{1}{\lambda^2}
+\text{Var}(X; \lambda) = \frac{1}{\lambda}$$
+
+For $\textbf{X} \overset{iid}{\sim} f_{n}(\cdot;\lambda)$ the MLE of $\lambda$ is $\hat{\lambda} = \overline{\textbf{x}}$. This estimator is unbiased, since:
+$$\mathbb{E}(\hat{\lambda}) = \frac{1}{n} \sum_{i=1}^{n}\mathbb{E}(X_{i}; \lambda)  =
+\lambda$$
+by linearity of expectation. Finally, we have:
+$$\begin{align*}
+\text{Var}(\hat{\lambda};\ \lambda) & = \frac{1}{n^2} \sum_{i=1}^{n} \text{Var}(X_{i};\lambda) \text{  since components of }\mathbf{X}\text{ are iid}\\
+\ & = \frac{\lambda}{n}\\
+\ & = \frac{1}{nI(\lambda)}
+\end{align*}$$
+
+which is the Cramer-Rao lower bound. It follows that $\hat{\lambda}$ is an efficient estimator. Thus, I would prefer the ML estimate over $T(\mathbf{X})$.
+
+The MLE of $\lambda$ for Bortkiewicz's data is $\overline{\textbf{x}} = 0.7$. This can be confirmed by using R's $\texttt{optim}$ function:
+```{r}
+# Write a function ell which computes the log-likelihood
+ell <- function(lambda){
+   stopifnot(all(lambda>0))
+   -length(xobs)*lambda + sum(xobs)*log(lambda)}
+```
+I will compute the ML estimate of $\lambda$ by optimizing function $\texttt{ell}$:
+```{r}
+ell.optim <- optim(par=0.1, fn=ell, control=list(fnscale=-1), method="L-BFGS-B")
+ell.optim
+```
+
+This confirms the ML estimate. Using Wald's approach, I can construct an approximate 95% observed confidence interval $[L(\mathbf{X}), U(\mathbf{X})]$, with:
+$$L(\textbf{X}) = \hat{\lambda} - \frac{z_{0.025}}{\sqrt{nI(\hat{\lambda})}}$$
+$$U(\textbf{X})  = \hat{\lambda} + \frac{z_{0.025}}{\sqrt{nI(\hat{\lambda})}}$$
+where $z_{0.025}$ is the number such that $\mathbb{P}(Z \ge z_{0.025}) = 0.025$, for $Z \sim \mathcal{N}(0,1)$.
+```{r}
+lambda.opt <- ell.optim$par
+Ihat <- 1/lambda.opt
+n <- length(xobs)
+L.opt <- lambda.opt - qnorm(1-0.025)/sqrt(n*Ihat)
+U.opt <- lambda.opt + qnorm(1-0.025)/sqrt(n*Ihat)
+round(c(L=L.opt, U=U.opt), 3)
+```
+Finally, I will plot an asymptotically exact 95% confidence interval using Wilk's approach. In general, an asymptotically exact 1-$\alpha$ confidence interval is given by:
+
+$$ \{ \lambda: 2[\ell(\hat{\lambda}, \mathbf{x}) - \ell(\lambda, \mathbf{x})] \le \chi_{1,\alpha}^2\ \}$$
+where $\chi_{1,\alpha}^2$ is the number such that $\mathbb{P}(W \ge \chi_{1,\alpha}^2) = \alpha$, for $W \sim \chi_{1}^2$. In this case, we can approximate a 95% C.I. by:
+$$ \{ \lambda: \ell(\lambda, \mathbf{x}) \ge \ell(\hat{\lambda}, \mathbf{x}) - 2 \}$$
+
+```{r}
+lambda.mle <- 0.70
+lambdas <- seq(from=0.44, to=1.0, length=10001)
+# Plot the log-likelihood function
+plot(lambdas, ell(lambdas), type='l', lwd=2, main='Log-likelihood function', 
+     xlab=expression(lambda), ylab="")
+# Locate the 95% CI
+abline(h=ell(lambda.mle)-2, lty=2, lwd=2, col='red')
+# Plot the ML estimate
+abline(v=lambda.mle, col='darkgreen')
+text(x=0.7, y=-284, label="ML estimate", pos=4, col='darkgreen')
+```
+The red dashed line corresponds to $\ell(\hat{\lambda})-2$.
